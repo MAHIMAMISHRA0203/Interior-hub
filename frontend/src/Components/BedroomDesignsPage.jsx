@@ -3,6 +3,7 @@ import './bedroomDesigns.css';
 
 const BedroomDesignsPage = () => {
   const [bedroomDesigns, setBedroomDesigns] = useState([]);
+  const [searchQuery, setSearchQuery] = useState(''); // State to hold search query
 
   // Use mock data for testing the UI
   useEffect(() => {
@@ -67,14 +68,25 @@ const BedroomDesignsPage = () => {
     setBedroomDesigns(mockBedroomDesigns);
   }, []);
 
+  // Filter the designs based on the search query
+  const filteredDesigns = bedroomDesigns.filter((design) =>
+    design.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <div className="bedroom-page">
       <header className="navbar">
         <h1>Bedroom Designs</h1>
-        <input type="text" placeholder="Search bedrooms..." className="search-bar" />
+        <input
+          type="text"
+          placeholder="Search bedrooms..."
+          className="search-bar"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)} // Update the search query
+        />
       </header>
       <div className="design-grid">
-        {bedroomDesigns.map((design) => (
+        {filteredDesigns.map((design) => (
           <div key={design._id} className="design-card">
             <img src={design.imageUrl} alt={design.title} className="design-image" />
             <div className="design-content">

@@ -10,7 +10,6 @@ const HeroPage = () => {
     <div className="hero-content">
       <h2>Transform Your Space</h2>
       <p>Discover professional interior designs for your dream home</p>
-      <button className="cta-button">Get Started</button>
     </div>
   </div>
   )

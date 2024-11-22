@@ -3,6 +3,7 @@ import './kitchenDesigns.css';
 
 const KitchenDesignsPage = () => {
   const [kitchenDesigns, setKitchenDesigns] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
 
   // Use mock data for testing the UI
   useEffect(() => {
@@ -67,22 +68,37 @@ const KitchenDesignsPage = () => {
     setKitchenDesigns(mockKitchenDesigns);
   }, []);
 
+  // Filter designs based on search query
+  const filteredDesigns = kitchenDesigns.filter((design) =>
+    design.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <div className="kitchen-page">
       <header className="navbar">
         <h1>Kitchen Designs</h1>
-        <input type="text" placeholder="Search kitchens..." className="search-bar" />
+        <input
+          type="text"
+          placeholder="Search kitchens..."
+          className="search-bar"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
       </header>
       <div className="design-grid">
-        {kitchenDesigns.map((design) => (
-          <div key={design._id} className="design-card">
-            <img src={design.imageUrl} alt={design.title} className="design-image" />
-            <div className="design-content">
-              <h2>{design.title}</h2>
-              <p>{design.description}</p>
+        {filteredDesigns.length > 0 ? (
+          filteredDesigns.map((design) => (
+            <div key={design._id} className="design-card">
+              <img src={design.imageUrl} alt={design.title} className="design-image" />
+              <div className="design-content">
+                <h2>{design.title}</h2>
+                <p>{design.description}</p>
+              </div>
             </div>
-          </div>
-        ))}
+          ))
+        ) : (
+          <p className="no-results">No results found</p>
+        )}
       </div>
     </div>
   );

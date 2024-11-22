@@ -24,7 +24,13 @@
   
   .container {
     max-width: 1200px;
-    margin: 0 auto;
+    margin: 250px auto;
+    padding: 0 20px;
+  }
+  
+  .container2 {
+    max-width: 1200px;
+    margin: 25px auto;
     padding: 0 20px;
   }
   
@@ -168,11 +174,7 @@
     margin-bottom: 32px;
   }
   
-  .categories-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 24px;
-  }
+
   
   .category-card {
     position: relative;

@@ -3,8 +3,9 @@ import './bathroomDesigns.css';
 
 const BathroomDesignsPage = () => {
   const [bathroomDesigns, setBathroomDesigns] = useState([]);
+  const [searchQuery, setSearchQuery] = useState(''); // State to track the search input
 
-  // Use mock data for testing the UI
+  // Mock data for testing the UI
   useEffect(() => {
     const mockBathroomDesigns = [
       {
@@ -12,69 +13,80 @@ const BathroomDesignsPage = () => {
         title: 'Luxury Bathroom',
         imageUrl:
           'https://th.bing.com/th/id/OIP.t2E_LM5K3bQNN8rf34IsFgHaE8?w=290&h=193&c=7&r=0&o=5&dpr=1.3&pid=1.7',
-        description: 'A luxurious bathroom with marble finishes and premium fixtures.Design no.-21',
+        description: 'A luxurious bathroom with marble finishes and premium fixtures. Design no.-21',
       },
       {
         _id: '2',
         title: 'Modern Bathroom',
         imageUrl:
           'https://th.bing.com/th/id/OIP.zbXmU6bqRS-zNbgQ6UDBUwHaE8?w=290&h=193&c=7&r=0&o=5&dpr=1.3&pid=1.7',
-        description: 'A sleek and modern bathroom with a minimalist aesthetic.Design no.-22',
+        description: 'A sleek and modern bathroom with a minimalist aesthetic. Design no.-22',
       },
       {
         _id: '3',
         title: 'Rustic Bathroom',
         imageUrl:
           'https://th.bing.com/th/id/OIP.jMTtbF8WvBHLjyCZir3T9gHaE8?w=290&h=193&c=7&r=0&o=5&dpr=1.3&pid=1.7',
-        description: 'A cozy rustic bathroom with wooden accents and earthy tones.Design no.-23',
+        description: 'A cozy rustic bathroom with wooden accents and earthy tones. Design no.-23',
       },
       {
         _id: '4',
         title: 'Scandinavian Bathroom',
         imageUrl:
           'https://th.bing.com/th/id/OIP.oKQv9fXcJnSvhPjlbiPSPAHaE8?w=290&h=193&c=7&r=0&o=5&dpr=1.3&pid=1.7',
-        description: 'A clean Scandinavian-style bathroom with bright and airy decor.Design no.-24',
+        description: 'A clean Scandinavian-style bathroom with bright and airy decor. Design no.-24',
       },
       {
         _id: '5',
         title: 'Small Space Bathroom',
         imageUrl:
           'https://th.bing.com/th/id/OIP.Sa3m8RTZQFcZTks7fRFShAHaE7?w=280&h=186&c=7&r=0&o=5&dpr=1.3&pid=1.7',
-        description: 'A compact bathroom optimized for small spaces.Design no.-25',
+        description: 'A compact bathroom optimized for small spaces. Design no.-25',
       },
       {
         _id: '6',
         title: 'Vintage Bathroom',
         imageUrl:
           'https://th.bing.com/th/id/OIP.N-jOH_zqNv1EDsyiAO9WJQHaE8?w=290&h=193&c=7&r=0&o=5&dpr=1.3&pid=1.7',
-        description: 'A classic vintage bathroom with elegant fixtures and decor.Design no.-26',
+        description: 'A classic vintage bathroom with elegant fixtures and decor. Design no.-26',
       },
       {
         _id: '7',
         title: 'Spa-Inspired Bathroom',
         imageUrl:
           'https://th.bing.com/th/id/OIP.GhaPlw2nGAXYOQUdVWZzMAHaFj?w=250&h=188&c=7&r=0&o=5&dpr=1.3&pid=1.7',
-        description: 'A spa-like bathroom with calming tones and luxury features.Design no.-27',
+        description: 'A spa-like bathroom with calming tones and luxury features. Design no.-27',
       },
       {
         _id: '8',
         title: 'Industrial Bathroom',
         imageUrl:
           'https://th.bing.com/th/id/OIP.DLHaReySaE6H29qsMBGTjAHaE8?w=290&h=193&c=7&r=0&o=5&dpr=1.3&pid=1.7',
-        description: 'An industrial-style bathroom with metal and exposed pipes.Design no.-28',
+        description: 'An industrial-style bathroom with metal and exposed pipes. Design no.-28',
       },
     ];
     setBathroomDesigns(mockBathroomDesigns);
   }, []);
 
+  // Filter designs based on the search query
+  const filteredDesigns = bathroomDesigns.filter((design) =>
+    design.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <div className="bathroom-page">
       <header className="navbar">
         <h1>Bathroom Designs</h1>
-        <input type="text" placeholder="Search bathrooms..." className="search-bar" />
+        <input
+          type="text"
+          placeholder="Search bathrooms..."
+          className="search-bar"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)} // Update search query state
+        />
       </header>
       <div className="design-grid">
-        {bathroomDesigns.map((design) => (
+        {filteredDesigns.map((design) => (
           <div key={design._id} className="design-card">
             <img src={design.imageUrl} alt={design.title} className="design-image" />
             <div className="design-content">
@@ -83,6 +95,9 @@ const BathroomDesignsPage = () => {
             </div>
           </div>
         ))}
+        {filteredDesigns.length === 0 && (
+          <p className="no-results">No bathroom designs found matching your search.</p>
+        )}
       </div>
     </div>
   );

@@ -9,8 +9,9 @@ const bodyParser = require("body-parser");
 const app = express();
 
 app.use(cors({
-    origin:"*"
-}))
+origin: "http://localhost:5173", // Frontend origin
+  methods: ["GET", "POST"],
+  allowedHeaders: ["Authorization", "Content-Type"],}))
 
 app.use(cookieParser());
 app.use(bodyParser.json());

@@ -1,30 +1,21 @@
 const jwt = require("jsonwebtoken");
 
-const AuthMiddleware = async (req, res, next) => {
-    
-    try {
-        const token = req.headers.authorization;
-        console.log(token);
+const AuthMiddleware = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+  const token = authHeader && authHeader.split(" ")[1];
 
-        if (!token) {
-            return res.status(401).json({ message: "Unauthorized User! Please Login First!!!" });
-        }
+  if (!token) {
+    return res.status(401).json({ message: "No token provided" });
+  }
 
-        try {
-            const verify = jwt.verify(token, process.env.SECRET);
-            req.user = verify;
-        } catch (error) {
-            if (error.name === 'TokenExpiredError') {
-                return res.status(401).json({ message: "Token has expired! Please Login Again!!" });
-            }
-            return res.status(401).json({ message: "Invalid Token! Please Login Again!!" });
-        }
-
-        next();
-    } catch (error) {
-        console.error("Authentication Error: ", error);
-        return res.status(500).json({ message: "Internal Server Error" });
-    }
+  try {
+    const decoded = jwt.verify(token, process.env.SECRET);
+    req.user = decoded; // Attach user info to the request
+    next(); 
+  } catch (error) {
+    console.error("Error verifying token:", error);
+    return res.status(401).json({ message: "Unauthorized" });
+  }
 };
 
 module.exports = AuthMiddleware;

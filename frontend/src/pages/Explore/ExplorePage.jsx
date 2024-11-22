@@ -1,9 +1,9 @@
-// src/pages/ExplorePage.jsx
-import  { useState, useEffect } from 'react';
-import './explore.css';
+import { useState, useEffect } from "react";
+import "./explore.css";
 
 const ExplorePage = () => {
   const [designIdeas, setDesignIdeas] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
 
   // Use mock data for testing the UI
   useEffect(() => {
@@ -132,22 +132,41 @@ const ExplorePage = () => {
     setDesignIdeas(mockData);
   }, []);
 
+  // Filter the design ideas based on the search query
+  const filteredIdeas = designIdeas.filter((idea) =>
+    idea.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
-    <div className="explore-page">
+    <div className="explore-page mb-12">
       <header className="navbar">
         <h1>Interior Design Platform</h1>
-        <input type="text" placeholder="Search designs..." className="search-bar" />
+        <input
+          type="text"
+          placeholder="Search designs..."
+          className="search-bar"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
       </header>
       <div className="design-grid">
-        {designIdeas.map((idea) => (
-          <div key={idea._id} className="design-card">
-            <img src={idea.imageUrl} alt={idea.title} className="design-image" />
-            <div className="design-content">
-              <h2>{idea.title}</h2>
-              <p>{idea.description}</p>
+        {filteredIdeas.length > 0 ? (
+          filteredIdeas.map((idea) => (
+            <div key={idea._id} className="design-card">
+              <img
+                src={idea.imageUrl}
+                alt={idea.title}
+                className="design-image"
+              />
+              <div className="design-content">
+                <h2>{idea.title}</h2>
+                <p>{idea.description}</p>
+              </div>
             </div>
-          </div>
-        ))}
+          ))
+        ) : (
+          <p className="no-results">No designs found.</p>
+        )}
       </div>
     </div>
   );

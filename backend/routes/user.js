@@ -10,11 +10,13 @@ router.get("/" , async (req,res) => {
 
 })
 
-router.get('/isAuthorized' , AuthMiddleware , async (req,res) => {
-  if(req.user){
-    return res.status(200).json({message:"Authorized!"})
+router.get("/isAuthorized", AuthMiddleware, (req, res) => {
+  if (req.user) {
+    return res.status(200).json({ message: "Yes" });
   }
+  return res.status(401).json({ message: "No" });
 });
+
 
 router.post("/register", async (req, res) => {
     

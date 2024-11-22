@@ -2,8 +2,52 @@
 // import React from 'react';
 import { Phone, Mail, MapPin, Clock, Instagram, Facebook, Twitter } from 'lucide-react';
 import './about.css';
+import { useState } from 'react';
+import axios from 'axios';
+import toast from 'react-hot-toast';
 
 const AboutPage = () => {
+
+  const [aboutPayload , setAboutPayload] = useState({
+    name : "",
+    email : "",
+    subject : "",
+    message : ""
+  })
+
+  const handleAboutPayload = (event) => {
+
+    const {name , value} = event.target;
+    setAboutPayload((prevPayload) => ({
+      ...prevPayload, 
+      [name]: value
+    }));
+    
+  }
+
+  const submitContactForm = async (event) => {
+    event.preventDefault();
+    try {
+      const url = `http://localhost:4444/aboutForm`;
+      const response = await axios.post(url, aboutPayload);
+  
+      if (response.status === 200) {
+        toast.success(response.data.message);
+        setAboutPayload({
+          name : "",
+          email: "",
+          subject:"",
+          message:""
+        });
+        
+      } else {
+        toast.error(response.data.message);
+      }
+    } catch (error) {
+      toast.error('An error occurred during registration.',error);
+    }
+  }
+
   const teamMembers = [
     {
       name: 'Parth Gupta',
@@ -37,8 +81,8 @@ const AboutPage = () => {
 
       {/* Our Story Section */}
       <section className="our-story">
-        <div className="container">
-          <h2>Our Story</h2>
+        <div className="container1 flex flex-col ">
+          <h2 className='text-5xl pb-10'>Our Story</h2>
           <div className="story-content">
             <div className="story-text">
               <p>Founded in 2024, InteriorHub has been at the forefront of revolutionary interior design solutions. We believe in creating spaces that not only look beautiful but also enhance the quality of life for our clients.</p>
@@ -52,10 +96,10 @@ const AboutPage = () => {
       </section>
 
       {/* Team Section */}
-      <section className="team">
-        <div className="container">
-          <h2>Meet Our Team</h2>
-          <div className="team-grid">
+      <section className="team ">
+        <div className="container1  flex flex-col">
+          <h2 className='text-3xl pt-16' >Meet Our Team</h2>
+          <div className="grid grid-cols-3 pb-16 space-x-6">
             {teamMembers.map((member, index) => (
               <div key={index} className="team-member">
                 <img src={member.image} alt={member.name} />
@@ -69,12 +113,11 @@ const AboutPage = () => {
       </section>
 
       {/* Contact Section */}
-      <section className="contact">
-        <div className="container">
+      <section className="contact flex flex-col justify-center ">
           <h2>Get in Touch</h2>
-          <div className="contact-grid">
-            <div className="contact-info">
-              <div className="contact-card">
+          <div className="flex justify-evenly pb-12 pr-48 w-full">
+            <div className="flex items-center ">
+              <div className="contact-card h-[50%] flex flex-col justify-center">
                 <h3>Contact Information</h3>
                 <div className="info-item">
                   <Phone size={20} />
@@ -102,29 +145,28 @@ const AboutPage = () => {
             </div>
 
             <div className="contact-form">
-              <h3>Send us a Message</h3>
-              <form onSubmit={(e) => e.preventDefault()}>
+              <h3 className='text-3xl'>Send us a Message</h3>
+              <form onSubmit={submitContactForm}>
                 <div className="form-group">
                   <label htmlFor="name">Name</label>
-                  <input type="text" id="name" required />
+                  <input onChange={handleAboutPayload} type="text" value={aboutPayload.name} id="name" name='name' className='w-96' required />
                 </div>
                 <div className="form-group">
                   <label htmlFor="email">Email</label>
-                  <input type="email" id="email" required />
+                  <input onChange={handleAboutPayload} type="email" id="email" value={aboutPayload.email} name='email' className='w-96' required />
                 </div>
                 <div className="form-group">
                   <label htmlFor="subject">Subject</label>
-                  <input type="text" id="subject" required />
+                  <input onChange={handleAboutPayload} type="text" id="subject" value={aboutPayload.subject} name='subject' className='w-96' required />
                 </div>
                 <div className="form-group">
                   <label htmlFor="message">Message</label>
-                  <textarea id="message" rows="5" required></textarea>
+                  <textarea onChange={handleAboutPayload} id="message" name='message' value={aboutPayload.message} rows="5" className='w-96' required></textarea>
                 </div>
-                <button type="submit" className="submit-button">Send Message</button>
+                <button className="submit-button">Send Message</button>
               </form>
             </div>
           </div>
-        </div>
       </section>
     </div>
   );

@@ -68,7 +68,7 @@ const Register = () => {
 
 
   return (
-    <div className="container">
+    <div className="flex justify-center items-center  w-full min-h-screen">
       <div className="form-box">
         <h1 className="title">Register</h1>
         <form method="post" onSubmit={handleRegister}>

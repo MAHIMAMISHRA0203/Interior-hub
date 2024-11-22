@@ -7,7 +7,7 @@ router.post("/aboutForm" , async (req,res) => {
     try{
         const {name , email , subject , message } = req.body;
     if(!name || !email || !subject || !message){
-        return res.send(201).json({message :"All Fields Are required!!!"})
+        return res.status(201).json({message :"All Fields Are required!!!"})
     }
 
     const about = new About({
@@ -17,7 +17,7 @@ router.post("/aboutForm" , async (req,res) => {
         message
     })
     await about.save();
-    return res.status(200).json({message : "You message Send SuccessFully!!!"})
+    return res.status(200).json({message : "Your message Send SuccessFully!!!"})
     }
     catch(error){
         res.status(404).json({ message: "Internal Server Error" });

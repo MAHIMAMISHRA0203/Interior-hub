@@ -3,6 +3,8 @@ import './livingRoomDesigns.css';
 
 const LivingRoomDesignsPage = () => {
   const [livingRoomDesigns, setLivingRoomDesigns] = useState([]);
+  const [searchTerm, setSearchTerm] = useState(''); // State to track search input
+  const [filteredDesigns, setFilteredDesigns] = useState([]); // State to track filtered designs
 
   // Use mock data for testing the UI
   useEffect(() => {
@@ -65,24 +67,47 @@ const LivingRoomDesignsPage = () => {
       },
     ];
     setLivingRoomDesigns(mockLivingRoomDesigns);
+    setFilteredDesigns(mockLivingRoomDesigns); // Initially, show all designs
   }, []);
+
+  // Function to handle search input change
+  const handleSearchChange = (event) => {
+    const value = event.target.value;
+    setSearchTerm(value);
+
+    // Filter designs based on title matching the search term
+    const filtered = livingRoomDesigns.filter((design) =>
+      design.title.toLowerCase().includes(value.toLowerCase())
+    );
+    setFilteredDesigns(filtered);
+  };
 
   return (
     <div className="living-room-page">
       <header className="navbar">
         <h1>Living Room Designs</h1>
-        <input type="text" placeholder="Search living rooms..." className="search-bar" />
+        <input
+          type="text"
+          value={searchTerm}
+          onChange={handleSearchChange}
+          placeholder="Search living rooms..."
+          className="search-bar"
+        />
       </header>
       <div className="design-grid">
-        {livingRoomDesigns.map((design) => (
-          <div key={design._id} className="design-card">
-            <img src={design.imageUrl} alt={design.title} className="design-image" />
-            <div className="design-content">
-              <h2>{design.title}</h2>
-              <p>{design.description}</p>
+        {filteredDesigns.length > 0 ? (
+          filteredDesigns.map((design) => (
+            <div key={design._id} className="design-card">
+              <img src={design.imageUrl} alt={design.title} className="design-image" />
+              <div className="design-content">
+                <h2>{design.title}</h2>
+                <p>{design.description}</p>
+              </div>
             </div>
-          </div>
-        ))}
+          ))
+        ) : (
+          <p>No results found</p> // Message when no designs match the search
+        )}
       </div>
     </div>
   );

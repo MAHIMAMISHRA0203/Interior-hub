@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useState } from "react";
 
-const Login = () => {
+const Login = ({setAuth}) => {
 
   const navigate = useNavigate();
 
@@ -45,8 +45,9 @@ const Login = () => {
           email: "",
           password: "",
         });
+        setAuth(true);
         
-        navigate("/");
+        // navigate("/");
       } else {
         toast.error(response.data.message);
       }
@@ -59,7 +60,7 @@ const Login = () => {
   
 
   return (
-    <div className="container">
+    <div className="flex justify-center items-center  w-full min-h-screen">
       <div className="form-box">
         <h1 className="title">Login</h1>
         <form method="post" onSubmit={handleLogin}>

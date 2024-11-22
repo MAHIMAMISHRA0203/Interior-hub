@@ -3,6 +3,7 @@ import './designers.css';
 
 const DesignersPage = () => {
   const [designers, setDesigners] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
 
   // Use mock data for testing the UI
   useEffect(() => {
@@ -67,27 +68,44 @@ const DesignersPage = () => {
     setDesigners(mockDesigners);
   }, []);
 
+  // Filter designers based on the search query
+  const filteredDesigners = designers.filter((designer) =>
+    designer.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
-    <div className="designers-page">
+    <div className="designers-page mb-12">
       <header className="navbar">
         <h1>Meet the Designers</h1>
-        <input type="text" placeholder="Search designers..." className="search-bar" />
+        <input
+          type="text"
+          placeholder="Search designers..."
+          className="search-bar"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
       </header>
       <div className="designers-grid">
-        {designers.map((designer) => (
-          <div key={designer._id} className="designer-card">
-            <img
-              src={designer.profilePicture}
-              alt={designer.name}
-              className="designer-profile-picture"
-            />
-            <div className="designer-content">
-              <h2>{designer.name}</h2>
-              <p><strong>Specialties:</strong> {designer.specialties.join(', ')}</p>
-              <p>{designer.bio}</p>
+        {filteredDesigners.length > 0 ? (
+          filteredDesigners.map((designer) => (
+            <div key={designer._id} className="designer-card">
+              <img
+                src={designer.profilePicture}
+                alt={designer.name}
+                className="designer-profile-picture"
+              />
+              <div className="designer-content">
+                <h2>{designer.name}</h2>
+                <p>
+                  <strong>Specialties:</strong> {designer.specialties.join(', ')}
+                </p>
+                <p>{designer.bio}</p>
+              </div>
             </div>
-          </div>
-        ))}
+          ))
+        ) : (
+          <p className="no-results">No designers found for "{searchQuery}"</p>
+        )}
       </div>
     </div>
   );

@@ -10,7 +10,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
+    /* height: 80vh; */
   }
   
   /* Form Box */
@@ -88,5 +88,10 @@ body {
   
   .link:hover {
     text-decoration: underline;
+  }
+
+  .size_l{
+    font-size: 20px !important;
+    
   }
   

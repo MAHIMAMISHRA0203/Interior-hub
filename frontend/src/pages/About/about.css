@@ -32,13 +32,13 @@
   
   /* Our Story Section */
   .our-story {
-    padding: 80px 0;
+    padding: 0;
   }
   
   .our-story h2,
   .team h2,
   .contact h2 {
-    font-size: 36px;
+    font-size: 50px;
     margin-bottom: 40px;
     text-align: center;
   }
@@ -65,15 +65,11 @@
   
   /* Team Section */
   .team {
-    padding: 80px 0;
+    padding: 0;
     background-color: var(--secondary-color);
   }
   
-  .team-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 32px;
-  }
+
   
   .team-member {
     text-align: center;
@@ -112,26 +108,26 @@
   
   /* Contact Section */
   .contact {
-    padding: 80px 0;
-  }
-  
-  .contact-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 48px;
+    padding:  0;
   }
   
   .contact-card {
     background-color: var(--secondary-color);
-    padding: 32px;
+    padding:  32px;
+    
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
   
   .contact-card h3,
   .contact-form h3 {
-    font-size: 24px;
     margin-bottom: 24px;
+  }
+
+  .container1 {
+    max-width: 1200px;
+    margin: 100px auto;
+    padding: 0 20px;
   }
   
   .info-item {
@@ -173,7 +169,7 @@
   
   .form-group input,
   .form-group textarea {
-    width: 100%;
+    width: 200%;
     padding: 12px;
     border: 1px solid var(--gray-medium);
     border-radius: 4px;
